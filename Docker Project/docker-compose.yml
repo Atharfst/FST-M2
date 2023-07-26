@@ -1,0 +1,24 @@
+version: '3'
+services:
+    #simple-api 
+    simple-blog-api:
+      depends_on:
+       - postgres
+      image: atharfst/simple-blog 
+      build:
+          context: .
+          dockerfile: Dockerfile
+      ports:
+          - "3000:3000"
+      environment:
+            - POSTGRES_HOST=postgres
+            - POSTGRES_PORT=5432
+            - POSTGRES_USERNAME=postgres
+            - POSTGRES_PASSWORD=postgres_password
+            - POSTGRES_DB=simple_blog_api
+    #postgres-db            
+    postgres:
+        image: 'postgres:latest'
+        environment:
+            - POSTGRES_PASSWORD=postgres_password
+            - POSTGRES_DB=simple_blog_api

@@ -1,0 +1,13 @@
+-- Create a table
+CREATE TABLE episodes (name STRING,line STRING);
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t' TBLPROPERTIES ("skip.header.line.count"="2");
+
+-- Load data into the database using a file on your local system (NOT HDFS)
+LOAD DATA LOCAL INPATH 'home/inputs/inputs/episodeIV_dialouges.txt' INTO TABLE episodes;
+LOAD DATA LOCAL INPATH 'home/inputs/inputs/episodeV_dialouges.txt' INTO TABLE episodes;
+LOAD DATA LOCAL INPATH 'home/inputs/inputs/episodeVI_dialouges.txt' INTO TABLE episodes;
+
+
+-- Generate ouput and export it
+INSERT OVERWRITE '/root' ROW FORMAT DELIMETED FIELDS TERMINATED BY '\t';
+SELECT name, COUNT(line) AS no_of_lines from episodes GROUP BY name ORDER BY no_of_lines desc; 
